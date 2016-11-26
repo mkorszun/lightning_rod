@@ -1,5 +1,4 @@
 Celery
-redis
 boto
-pycurl
 pymongo
+Flask
