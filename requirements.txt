@@ -1,0 +1,5 @@
+Celery
+redis
+boto
+pycurl
+pymongo
