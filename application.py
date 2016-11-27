@@ -3,7 +3,8 @@ from celery import Celery
 from message import MessageReader, MessageStorage, MessageSender
 
 from config import MONGO_DB_URL, MONGO_DB_COLLECTION, AWS_SQS_NAME, AWS_REGION, \
-    AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID, BROKER_URL, SENDER, DRY_RUN
+    AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID, BROKER_URL, SENDER, DRY_RUN, \
+    FETCH_MESSAGE_FREQUENCY, SEND_MESSAGE_FREQUENCY
 
 
 storage = MessageStorage(MONGO_DB_URL, MONGO_DB_COLLECTION)
@@ -27,11 +28,11 @@ app.conf.update(
     CELERYBEAT_SCHEDULE={
         'notifications.store': {
             'task': 'notifications.store',
-            'schedule': timedelta(seconds=10)
+            'schedule': timedelta(seconds=FETCH_MESSAGE_FREQUENCY)
         },
         'notifications.aggregate': {
             'task': 'notifications.aggregate',
-            'schedule': timedelta(minutes=30)
+            'schedule': timedelta(minutes=SEND_MESSAGE_FREQUENCY)
         }
     }
 )
