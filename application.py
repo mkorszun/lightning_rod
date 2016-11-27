@@ -3,7 +3,7 @@ from celery import Celery
 from message import MessageReader, MessageStorage, MessageSender
 
 from config import MONGO_DB_URL, MONGO_DB_COLLECTION, AWS_SQS_NAME, AWS_REGION, \
-    AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID, BROKER_URL, SENDER
+    AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID, BROKER_URL, SENDER, DRY_RUN
 
 
 storage = MessageStorage(MONGO_DB_URL, MONGO_DB_COLLECTION)
@@ -16,7 +16,8 @@ reader = MessageReader(AWS_ACCESS_KEY_ID,
 sender = MessageSender(AWS_ACCESS_KEY_ID,
                        AWS_SECRET_ACCESS_KEY,
                        AWS_REGION,
-                       SENDER)
+                       SENDER,
+                       DRY_RUN)
 
 app = Celery('notifications')
 app.conf.update(

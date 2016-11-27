@@ -10,3 +10,4 @@ MONGO_DB_COLLECTION = os.getenv('MONGO_DB_COLLECTION', 'notifications')
 
 BROKER_URL = os.getenv('BROKER_URL', 'mongodb://komot:komot@ds163677.mlab.com:63677/komot')
 SENDER = os.getenv('SENDER', 'mkorszun@gmail.com')
+DRY_RUN = os.getenv('DRY_RUN', 'true') == 'true'

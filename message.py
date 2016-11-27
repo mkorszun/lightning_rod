@@ -69,8 +69,9 @@ class MessageStorage():
 class MessageSender():
     """AWS SES client"""
 
-    def __init__(self, access_key, secret_key, region, sender):
+    def __init__(self, access_key, secret_key, region, sender, dry_run):
         self.sender = sender
+        self.dry_run = dry_run
         self.conn = ses.connect_to_region(region,
                                           aws_access_key_id=access_key,
                                           aws_secret_access_key=secret_key)
@@ -79,7 +80,8 @@ class MessageSender():
         """Send notifications digest to user"""
         title = 'Hi {}, your friends are active!'.format(receiver['name'])
         body = '{0}\n\n{1}'.format(title, messages_to_string(messages))
-        self.conn.send_email(self.sender, title, body, [self.sender])
+        receiver = self.sender if self.dry_run else receiver['email']
+        self.conn.send_email(self.sender, title, body, [receiver])
 
 
 def messages_to_string(messages):
